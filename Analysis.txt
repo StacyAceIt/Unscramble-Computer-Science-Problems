@@ -1,0 +1,118 @@
+--------------------------------------------------------TASK0------------------------------------------------------------------------
+
+
+# Task0 runtime analysis
+
+print("First record of texts, %s texts %s at time %s" % (texts[0][0], texts[0][1], texts[0][2]))
+print("Last record of calls, %s calls %s at time %s, lasting %s seconds"
+      % (calls[-1][0], calls[-1][1], calls[-1][2], calls[-1][3]))
+
+There are two lines of code which takes O(2).
+The order of growth of this algorithm is O(1).
+
+--------------------------------------------------------TASK1---------------------------------------------------------------------
+
+# Task1 runtime analysis
+
+phone_numbers_set = set() // 1 time
+
+for row in texts: // n times
+    phone_numbers_set.add(row[0]) // 1 time
+    phone_numbers_set.add(row[1]) // 1 time
+
+for row in calls: // n times
+    phone_numbers_set.add(row[0]) // 1 time
+    phone_numbers_set.add(row[1]) // 1 time
+
+print("There are %s different telephone numbers in the records." % len(phone_numbers_set))
+
+//outside for loop, two lines of code takes O(2)
+//two for-loops both takes O(2*n)
+//the entire algorithm takes O(4*n + 2)
+//the order of growth of this algorithm approximates to O(n)
+
+----------------------------------------------------TASK2----------------------------------------------------------------------------
+
+# Task2 runtime analysis
+
+time_spent_on_phone = {} // 1 time
+for calls_record in calls: // n times
+    time_spent_on_phone[calls_record[0]] = time_spent_on_phone.get(calls_record[0], 0) + int(calls_record[3]) // 1 time
+    time_spent_on_phone[calls_record[1]] = time_spent_on_phone.get(calls_record[1], 0) + int(calls_record[3])  // 1 time
+
+telephone_number = max(time_spent_on_phone, key=time_spent_on_phone.get) // 1 time
+max_total_time = time_spent_on_phone[telephone_number] // 1 time
+print("%s spent the longest time, %s seconds, on the phone during September 2016."  // 1 time
+      % (telephone_number, max_total_time))
+
+
+// Outside for loop, 4 lines of code takes O(4). Inside for loop, it takes O(2*n)
+// It totals to O(2n+4)
+//the order of growth of this algorithm is O(n)
+
+-------------------------------------------------TASK3-------------------------------------------------------------------------------
+
+
+# Task3 runtime analysis
+
+area_code = list() // 1 time
+
+for call_record in calls: // n times
+    caller = call_record[0] // 1 time
+    receiver = call_record[1] // 1 time
+    if caller.startswith("(080)"): // 1 time
+        if receiver.startswith('(0'): // 1 time
+            area_code.append(receiver[0:receiver.find(')')+1]) // 1 time
+        elif receiver.startswith(('7', '8', '9')): // 1 time
+            area_code.append(receiver[0:4]) // 1 time
+        elif receiver.startswith('140'): // 1 time
+            area_code.append('140') // 1 time
+
+area_code_sorted_set = sorted(set(area_code)) // 1 time
+Bangalore_to_Bangalore = area_code.count("(080)") // 1 time
+print("The numbers called by people in Bangalore have codes:") // 1 time
+print("\n".join(area_code_sorted_set)) // 1 time
+
+percentage = (Bangalore_to_Bangalore/len(area_code)) * 100 // 1 time
+
+print("{:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore."
+      .format(percentage)) // 1 time
+
+It is O(7) outside for-loop
+For loop takes O(n). Inside for-loop,each loop processes 5 lines of code
+since only one of the three if/elif conditions will be executed.
+The entire for-loop takes O(n*5)
+The entire algorithms takes O(7 + 5*n)
+this algorithm approximates to O(n)
+The order of growth of this algorithm is O(n)
+
+
+----------------------------------------------------TASK4----------------------------------------------------------------------------
+
+
+
+# Task4 runtime analysis
+
+caller_set = set() // 1 time
+non_telemarketer_set = set() // 1 time
+
+for call_records in calls: // n times
+    caller, callee = call_records[0], call_records[1]  // 1 time
+    caller_set.add(caller)  // 1 time
+    non_telemarketer_set.add(callee)  // 1 time
+
+for text_records in texts: // n times
+    sender, sendee = text_records[0], text_records[1]  // 1 time
+    non_telemarketer_set.add(sender)  // 1 time
+    non_telemarketer_set.add(sendee)  // 1 time
+
+telemarketer_set = sorted(caller_set - non_telemarketer_set) // 1 time
+print("These numbers could be telemarketers: ") // 1 time
+print("\n".join(telemarketer_set)) // 1 time
+
+
+Outside for loop, 5 lines of code takes O(5)
+The first for loop takes O(3*n)
+The second for loop takes O(3*n) times
+The entire code takes O(6n + 5) which approximates to O(n)
+The order of growth is O(n)
